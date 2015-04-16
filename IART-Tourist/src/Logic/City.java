@@ -5,6 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.DefaultGraph;
+import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.spriteManager.Sprite;
+import org.graphstream.ui.spriteManager.SpriteManager;
 
 /**
  * Created by Gonçalo Lobo on 16/04/2015.
@@ -12,18 +17,54 @@ import java.util.ArrayList;
 
 public class City {
 
-
+    int nColumn;
     ArrayList[][] city;
-
+    Graph map;
+    String name;
     public City(String name){
-
+        this.name = name;
         if(name.equals("Porto"))
-            this.city = loadCity("C:\\Users\\Gonçalo Lobo\\Desktop\\IART-Tourist\\porto.csv"); // hardcoded :|
+            this.city = loadCity("D:\\iart - tourguide\\src\\porto.csv"); // hardcoded :|
         else
         if(name.equals("Lisboa"))
             this.city = loadCity("C:\\Users\\Gonçalo Lobo\\Desktop\\IART-Tourist\\lisboa.csv");
         else System.err.println("There's no file database for that city.");
 
+        map = generateGraph();
+
+    }
+
+    private Graph generateGraph() {
+        Graph graph = new MultiGraph(name);
+        String nodeId;
+        for(int i = 1; i < nColumn ; i++)
+        {
+            //create all nodes
+            nodeId = getPlaceName(i);
+            graph.addNode(nodeId);
+            //System.out.println(nodeId);
+            graph.getNode(nodeId).setAttribute("duration", getPlaceDuration(i));
+        }
+
+        for(int i = 1; i < nColumn ; i++)
+        {
+            for(int j = 2; j < nColumn ; j++)
+            {
+                if(i<j){
+                    //create edges
+                    String tmp = getPlaceName(i) + "-" + getPlaceName(j);
+                    //System.out.println(tmp);
+                    graph.addEdge(tmp, getPlaceName(i), getPlaceName(j));
+                    graph.getEdge(tmp).setAttribute("weight", getPlacesDistance(i,j)); //get places distance dá sempre 0
+                    System.out.println(getPlacesDistance(i,j)); //mas o array city está bem preenchido
+                }
+                else{
+                    //percorre elementos acima da diagonal principal
+                }
+            }
+        }
+
+        return graph;
     }
 
     public ArrayList[][] getCity() {
@@ -47,10 +88,11 @@ public class City {
             for (int i = 0; (line = br.readLine()) != null;i++) {
 
                 String[] info = line.split(cvsSplitBy);
-
+                nColumn = info.length;
                 for( int j = 0; j<info.length;j++ ) {
                     c[i][j] = new ArrayList();
                     c[i][j].add(info[j]);
+                    //System.out.println(c[i][j]);
                 }
             }
 
@@ -86,6 +128,11 @@ public class City {
     }
 
     public float getPlacesDistance(int i, int j) {
+        //System.out.println(city[i][j].toString());
         return Float.parseFloat(city[i][j].toString().replace("[","").replace("]",""));
+    }
+
+    public Graph getMap() {
+        return map;
     }
 }
