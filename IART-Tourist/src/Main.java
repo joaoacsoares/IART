@@ -1,11 +1,12 @@
-import java.io.IOException;
-import java.io.StringReader;
-
+import Logic.City;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.algorithm.AStar.DistanceCosts;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.DefaultGraph;
 import org.graphstream.stream.file.FileSourceDGS;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 public class Main {
 
@@ -36,36 +37,17 @@ public class Main {
             ;
 
     public static void main(String[] args) throws IOException {
-        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+
+        City map = new City("Porto");
+
+        System.out.println(map.getCityName());
+        System.out.println(map.getPlaceName(1));
+        System.out.println(map.getPlaceName(2));
+        System.out.println(map.getPlaceDuration(1));
+        System.out.println(map.getPlacesDistance(1, 2));
 
         Graph graph = new DefaultGraph("A Test");
         StringReader reader = new StringReader(my_graph);
-/*
-        graph.addNode("A" );
-        graph.addNode("B" );
-        graph.addNode("C" );
-        graph.addEdge("AB", "A", "B");
-        graph.addEdge("AD", "A", "D");
-        graph.addEdge("BC", "B", "C");
-        graph.addEdge("CF", "C", "F");
-        graph.addEdge("DE", "D", "E");
-        graph.addEdge("EF", "E", "F");
-
-
-        Node A = graph.getNode("A");
-        Node B = graph.getNode("B");
-        Node C = graph.getNode("C");
-        Node D = graph.getNode("D");
-        Node E = graph.getNode("E");
-        Node F = graph.getNode("F");
-
-        A.setAttribute("xy",0,1);
-        B.setAttribute("xy",1,2);
-        C.setAttribute("xy",2,2);
-        D.setAttribute("xy",1,0);
-        E.setAttribute("xy",2,0);
-        F.setAttribute("xy",3,1);
-*/
 
         FileSourceDGS source = new FileSourceDGS();
         source.addSink(graph);
@@ -82,6 +64,8 @@ public class Main {
 
         //Viewer viewer = graph.display();
         graph.display();
+
+
     }
 
 
