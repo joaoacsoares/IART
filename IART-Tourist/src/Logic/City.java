@@ -5,7 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.DefaultGraph;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.spriteManager.Sprite;
@@ -24,7 +27,7 @@ public class City {
     public City(String name){
         this.name = name;
         if(name.equals("Porto"))
-            this.city = loadCity("D:\\iart - tourguide\\src\\porto.csv"); // hardcoded :|
+            this.city = loadCity("C:\\Users\\Gonçalo Lobo\\Git\\IART\\IART-Tourist\\src\\porto.csv"); // hardcoded :|
         else
         if(name.equals("Lisboa"))
             this.city = loadCity("C:\\Users\\Gonçalo Lobo\\Desktop\\IART-Tourist\\lisboa.csv");
@@ -55,7 +58,8 @@ public class City {
                     String tmp = getPlaceName(i) + "-" + getPlaceName(j);
                     //System.out.println(tmp);
                     graph.addEdge(tmp, getPlaceName(i), getPlaceName(j));
-                    graph.getEdge(tmp).setAttribute("weight", getPlacesDistance(i,j)); //get places distance dá sempre 0
+                    graph.getEdge(tmp).setAttribute("weight", getPlacesDistance(i, j)); //get places distance dá sempre 0
+                    graph.getEdge(tmp).addAttribute("ui.label", graph.getEdge(tmp).getAttribute("weight"));
                     System.out.println(getPlacesDistance(i,j)); //mas o array city está bem preenchido
                 }
                 else{
@@ -63,6 +67,12 @@ public class City {
                 }
             }
         }
+
+        for (Node node : graph) {
+            node.addAttribute("ui.label", node.getId());
+        }
+
+
 
         return graph;
     }

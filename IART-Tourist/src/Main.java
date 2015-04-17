@@ -10,16 +10,7 @@ import java.io.StringReader;
 
 public class Main {
 
-    //     B-(1)-C
-    //    /       \
-    //  (1)       (10)
-    //  /           \
-    // A             F
-    //  \           /
-    //  (1)       (1)
-    //    \       /
-    //     D-(1)-E
-
+    
     public static void main(String[] args) throws IOException {
 
         City map = new City("Porto");
