@@ -153,9 +153,7 @@ public class City {
         System.out.println("Where do you REALLY want to go?(done to complete)");
         System.out.print("->");
         String input = sc.nextLine();
-        if (input ==  "done")
-            return;
-        else {
+        if (!input.equals("done")){
             map.getNode(input).setAttribute("priority",1);
             setUserPriorities(sc);
         }
