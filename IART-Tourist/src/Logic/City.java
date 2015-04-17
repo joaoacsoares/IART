@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -27,7 +28,7 @@ public class City {
     public City(String name){
         this.name = name;
         if(name.equals("Porto"))
-            this.city = loadCity("C:\\Users\\Gonçalo Lobo\\Git\\IART\\IART-Tourist\\src\\porto.csv"); // hardcoded :|
+            this.city = loadCity("D:\\iart - tourguide\\src\\porto.csv"); // hardcoded :|
         else
         if(name.equals("Lisboa"))
             this.city = loadCity("C:\\Users\\Gonçalo Lobo\\Desktop\\IART-Tourist\\lisboa.csv");
@@ -70,6 +71,7 @@ public class City {
 
         for (Node node : graph) {
             node.addAttribute("ui.label", node.getId());
+            node.addAttribute("priority",0);
         }
 
 
@@ -144,5 +146,26 @@ public class City {
 
     public Graph getMap() {
         return map;
+    }
+
+    public void setUserPriorities(Scanner sc) {
+        listNodes();
+        System.out.println("Where do you REALLY want to go?(done to complete)");
+        System.out.print("->");
+        String input = sc.nextLine();
+        if (input ==  "done")
+            return;
+        else {
+            map.getNode(input).setAttribute("priority",1);
+            setUserPriorities(sc);
+        }
+
+    }
+
+    private void listNodes() {
+        for(Node n : map)
+        {
+         System.out.println(n.getId());
+        }
     }
 }

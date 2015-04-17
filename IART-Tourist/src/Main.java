@@ -7,6 +7,7 @@ import org.graphstream.stream.file.FileSourceDGS;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Scanner;
 
 public class Main {
 
@@ -22,7 +23,18 @@ public class Main {
         AStar.Costs c = new GraphCosts();
 
         astar.setCosts(c);
-        astar.compute("Clérigos", "Piolho");
+
+        System.out.println("Where should it start?");
+        System.out.print("->");
+        Scanner sc = new Scanner(System.in);
+        String startPoint = sc.nextLine();
+
+        System.out.println("Where should it end?");
+        System.out.print("->");
+        String endPoint = sc.nextLine();
+        map.setUserPriorities(sc);
+
+        astar.compute(startPoint, endPoint);
 
         System.out.println(astar.getShortestPath());
 
