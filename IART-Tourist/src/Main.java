@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    
+
     public static void main(String[] args) throws IOException {
 
         City map = new City("Porto");
@@ -23,6 +23,7 @@ public class Main {
         AStar.Costs c = new GraphCosts();
 
         astar.setCosts(c);
+//      astar.compute("Clerigos", "Piolho");
 
         System.out.println("Where should it start?");
         System.out.print("->");
@@ -32,15 +33,15 @@ public class Main {
         System.out.println("Where should it end?");
         System.out.print("->");
         String endPoint = sc.nextLine();
+        System.out.print(map.getPlaceIDbyName(startPoint)+ map.getPlaceIDbyName(endPoint));
         map.setUserPriorities(sc);
 
-        astar.compute(startPoint, endPoint);
+        astar.compute(map.getPlaceIDbyName(startPoint), map.getPlaceIDbyName(endPoint));
 
         System.out.println(astar.getShortestPath());
 
         //Viewer viewer = graph.display();
         map.getMap().display();
-
 
     }
 

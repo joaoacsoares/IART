@@ -10,10 +10,12 @@ import java.util.Scanner;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.DefaultGraph;
-import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.graph.implementations.*;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
+
+import static org.graphstream.algorithm.Toolkit.randomNode;
+import static org.graphstream.ui.graphicGraph.GraphPosLengthUtils.nodePosition;
 
 /**
  * Created by Gonçalo Lobo on 16/04/2015.
@@ -25,56 +27,59 @@ public class City {
     ArrayList[][] city;
     Graph map;
     String name;
-    public City(String name){
+
+    String DIR_PATH = System.getProperty("user.dir");
+
+    public City(String name) {
         this.name = name;
-        if(name.equals("Porto"))
-            this.city = loadCity("D:\\iart - tourguide\\src\\porto.csv"); // hardcoded :|
-        else
-        if(name.equals("Lisboa"))
-            this.city = loadCity("C:\\Users\\Gonçalo Lobo\\Desktop\\IART-Tourist\\lisboa.csv");
+        if (name.equals("Porto"))
+            this.city = loadCity(DIR_PATH + "\\src\\CSVs\\porto.csv");
+        else if (name.equals("Lisboa"))
+            this.city = loadCity(DIR_PATH + "\\src\\CSVs\\lisboa.csv");
         else System.err.println("There's no file database for that city.");
 
         map = generateGraph();
 
     }
 
+
     private Graph generateGraph() {
+        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         Graph graph = new MultiGraph(name);
+        SpriteManager sman = new SpriteManager(graph);
+
+        graph.addAttribute("ui.quality");
+        graph.addAttribute("ui.antialias");
+
         String nodeId;
-        for(int i = 1; i < nColumn ; i++)
-        {
+        for (int i = 1; i < nColumn; i++) {
             //create all nodes
-            nodeId = getPlaceName(i);
+            nodeId = getPlaceID(i);
             graph.addNode(nodeId);
             //System.out.println(nodeId);
             graph.getNode(nodeId).setAttribute("duration", getPlaceDuration(i));
+            graph.getNode(nodeId).addAttribute("ui.label", getPlaceName(i));
+            graph.getNode(nodeId).addAttribute("ui.duration", getPlaceDuration(i));
+            graph.getNode(nodeId).addAttribute("priority", 0); // default
         }
 
-        for(int i = 1; i < nColumn ; i++)
-        {
-            for(int j = 2; j < nColumn ; j++)
-            {
-                if(i<j){
+        for (int i = 1; i < nColumn; i++) {
+            for (int j = 2; j < nColumn; j++) {
+                if (i < j) {
                     //create edges
-                    String tmp = getPlaceName(i) + "-" + getPlaceName(j);
+                    String tmp = getPlaceID(i) + "-" + getPlaceID(j);
                     //System.out.println(tmp);
-                    graph.addEdge(tmp, getPlaceName(i), getPlaceName(j));
-                    graph.getEdge(tmp).setAttribute("weight", getPlacesDistance(i, j)); //get places distance dá sempre 0
+                    graph.addEdge(tmp, getPlaceID(i), getPlaceID(j));
+                    graph.getEdge(tmp).setAttribute("weight", getPlacesDistance(i, j));
                     graph.getEdge(tmp).addAttribute("ui.label", graph.getEdge(tmp).getAttribute("weight"));
-                    System.out.println(getPlacesDistance(i,j)); //mas o array city está bem preenchido
-                }
-                else{
+                    System.out.println(getPlacesDistance(i, j));
+                } else {
                     //percorre elementos acima da diagonal principal
                 }
             }
         }
 
-        for (Node node : graph) {
-            node.addAttribute("ui.label", node.getId());
-            node.addAttribute("priority",0);
-        }
-
-
+        graph.addAttribute("ui.stylesheet", loadStyle());
 
         return graph;
     }
@@ -97,14 +102,13 @@ public class City {
 
             br = new BufferedReader(new FileReader(csvFile));
 
-            for (int i = 0; (line = br.readLine()) != null;i++) {
+            for (int i = 0; (line = br.readLine()) != null; i++) {
 
                 String[] info = line.split(cvsSplitBy);
                 nColumn = info.length;
-                for( int j = 0; j<info.length;j++ ) {
+                for (int j = 0; j < info.length; j++) {
                     c[i][j] = new ArrayList();
                     c[i][j].add(info[j]);
-                    //System.out.println(c[i][j]);
                 }
             }
 
@@ -127,12 +131,73 @@ public class City {
 
     }
 
+    private String loadStyle() {
+
+        String cssFile;
+
+        if (name.equals("Porto"))
+            cssFile = DIR_PATH + "\\src\\Stylesheets\\porto.css";
+        else if (name.equals("Lisboa"))
+            cssFile = DIR_PATH + "\\src\\Stylesheets\\lisboa.css";
+        else {
+            cssFile = "error";
+            System.err.println("There are no stylesheet available for that city.");
+        }
+
+
+        BufferedReader br = null;
+        String line = "";
+        StringBuilder sb = new StringBuilder();
+
+        try {
+
+            br = new BufferedReader(new FileReader(cssFile));
+
+            while ((line = br.readLine()) != null) {
+                sb.append(line.replace("path", DIR_PATH));
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
+
     public String getCityName() {
-        return city[0][0].toString().replace("[","").replace("]","");
+        return city[0][0].toString().replace("[", "").replace("]", "");
     }
 
     public String getPlaceName(int i) {
-        return city[i][0].toString().replace("[","").replace("]","");
+        return city[0][i].toString().replace("[", "").replace("]", "");
+    }
+
+    public String getPlaceID(int i) {
+        return city[i][0].toString().replace("[", "").replace("]", "");
+    }
+
+    public String getPlaceIDbyName(String name) {
+        String placeName = "";
+        int i = 0;
+
+        while (!name.equals(placeName)){
+            i++;
+            placeName = getPlaceName(i);
+        }
+
+        return getPlaceID(i);
+
     }
 
     public float getPlaceDuration(int i) {
@@ -140,8 +205,7 @@ public class City {
     }
 
     public float getPlacesDistance(int i, int j) {
-        //System.out.println(city[i][j].toString());
-        return Float.parseFloat(city[i][j].toString().replace("[","").replace("]",""));
+        return Float.parseFloat(city[i][j].toString().replace("[", "").replace("]", ""));
     }
 
     public Graph getMap() {
@@ -153,17 +217,21 @@ public class City {
         System.out.println("Where do you REALLY want to go?(done to complete)");
         System.out.print("->");
         String input = sc.nextLine();
-        if (!input.equals("done")){
-            map.getNode(input).setAttribute("priority",1);
-            setUserPriorities(sc);
+        if (input.equals("done"))
+        { return;}
+           else{
+        if (!input.equals("done")) {
+                map.getNode(getPlaceIDbyName(input)).setAttribute("priority", 1);
+                setUserPriorities(sc);
+            }
         }
 
     }
 
+
+
     private void listNodes() {
-        for(Node n : map)
-        {
-         System.out.println(n.getId());
-        }
+        for(int i = 1; i<nColumn;i++)
+            System.out.println(getPlaceName(i));
     }
 }

@@ -1,0 +1,32 @@
+node {
+text-alignment: center;
+text-padding:2px;
+text-visibility:0.05;
+text-background-mode:rounded-box;
+text-background-color: #282828;
+text-color: #fff;
+text-size: 10px;}
+node#Clerigos {
+shape: box;
+size: 35px, 105px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\clerigos.png');
+}
+node#Piolho {
+shape: box;
+size: 113px, 84px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\piolho.png');
+}
+node#SBento {
+shape: box;
+size: 123px, 64px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\sbento.png');
+}
+node#Palacio {
+shape: box;
+size: 135px, 75px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\palacio.png');
+}
