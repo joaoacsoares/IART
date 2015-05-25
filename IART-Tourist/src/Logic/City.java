@@ -7,15 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.*;
-import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 
-import static org.graphstream.algorithm.Toolkit.randomNode;
-import static org.graphstream.ui.graphicGraph.GraphPosLengthUtils.nodePosition;
 
 /**
  * Created by Gonçalo Lobo on 16/04/2015.
@@ -59,8 +54,8 @@ public class City {
             //System.out.println(nodeId);
             graph.getNode(nodeId).setAttribute("duration", getPlaceDuration(i));
             graph.getNode(nodeId).addAttribute("ui.label", getPlaceName(i));
+            graph.getNode(nodeId).addAttribute("priority", getPlacePriority(i)); // default
             graph.getNode(nodeId).addAttribute("ui.duration", getPlaceDuration(i));
-            graph.getNode(nodeId).addAttribute("priority", 0); // default
         }
 
         for (int i = 1; i < nColumn; i++) {
@@ -70,9 +65,9 @@ public class City {
                     String tmp = getPlaceID(i) + "-" + getPlaceID(j);
                     //System.out.println(tmp);
                     graph.addEdge(tmp, getPlaceID(i), getPlaceID(j));
-                    graph.getEdge(tmp).setAttribute("weight", getPlacesDistance(i, j));
-                    graph.getEdge(tmp).addAttribute("ui.label", graph.getEdge(tmp).getAttribute("weight"));
-                    System.out.println(getPlacesDistance(i, j));
+                    graph.getEdge(tmp).setAttribute("distance", getPlacesDistance(i, j));
+                    graph.getEdge(tmp).addAttribute("ui.label", graph.getEdge(tmp).getAttribute("distance"));
+                    //System.out.println(getPlacesDistance(i, j));
                 } else {
                     //percorre elementos acima da diagonal principal
                 }
@@ -201,7 +196,11 @@ public class City {
     }
 
     public float getPlaceDuration(int i) {
-        return Float.parseFloat(city[i][i].toString().replace("[", "").replace("]", ""));
+        return Float.parseFloat(city[i][i].toString().replace("[", "").replace("]", "").split("|")[0]);
+    }
+
+    public float getPlacePriority(int i) {
+        return Float.parseFloat(city[i][i].toString().replace("[", "").replace("]", "").split("|")[0]);
     }
 
     public float getPlacesDistance(int i, int j) {

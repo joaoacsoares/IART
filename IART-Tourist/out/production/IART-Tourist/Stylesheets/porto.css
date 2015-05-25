@@ -30,3 +30,12 @@ size: 135px, 75px;
 fill-mode: image-scaled;
 fill-image: url('path\\src\\Sprites\\palacio.png');
 }
+
+node.important {
+    fill-color: red;
+    size: 15px;
+}
+
+edge.Start { fill-color: green; }
+
+edge.Path { fill-color: red; }
