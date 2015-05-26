@@ -36,6 +36,6 @@ node.important {
     size: 15px;
 }
 
-edge.Start { fill-color: green; }
+edge.Start { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #FC0; shadow-offset: 0px; }
 
-edge.Path { fill-color: red; }
+edge.Path { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #E22727; shadow-offset: 0px; }

@@ -1,9 +1,7 @@
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Gonçalo Lobo on 22/05/2015.
@@ -12,6 +10,7 @@ import java.util.List;
 public class AStar {
 
     public static Node startNode;
+    public static Node candidate;
 
     public static List<Node> open = new ArrayList<Node>();
     public static List<Node> closed = new ArrayList<Node>();
@@ -30,7 +29,7 @@ public class AStar {
 
         while(TouristGuide.timeLeft>0 && closed.size() != totalNodes){
             if(TouristGuide.DEBUGGER) {
-                Thread.sleep(4000);
+                Thread.sleep(500);
                 System.out.println("Time left: " + TouristGuide.timeLeft);
             }
             closed.add(getMinimalCostNode());
@@ -50,6 +49,7 @@ public class AStar {
 
         // max min cost
         double minEdge = -1;
+        double minST   = -1;
 
         // g is the distance from the start node to node
         double g = 0;
@@ -62,10 +62,6 @@ public class AStar {
 
         open.remove(ref);
 
-        Node candidate = ref;
-
-        Iterator<Node> nodes = open.listIterator();
-
         if(TouristGuide.DEBUGGER) {
             System.out.println("OPEN: " + open);
             System.out.println("CLOSED: " + closed);
@@ -75,6 +71,33 @@ public class AStar {
         if(startNode.getEdgeToward(ref) != null)
             g = startNode.getEdgeToward(ref).getNumber("distance");
         else g = 0;
+
+        minEdge = calcClosestEdge(ref);
+        minST = calcMinimumSpanningTree(ref);
+
+        h = minEdge + minST;
+
+        if(TouristGuide.DEBUGGER)
+            System.out.println("\nMinimal cost node is " + candidate.getId() + " with a cost of " + h +
+                    "\n-------------------------------------------------------");
+
+        TouristGuide.timeLeft -= minEdge/TouristGuide.SPEED +candidate.getNumber("duration");
+
+        if(g/TouristGuide.SPEED > TouristGuide.timeLeft || open.isEmpty()) {
+            if(TouristGuide.DEBUGGER && !open.isEmpty())
+                System.out.println("\nNo more time to visit other nodes. Going back to the hotel");
+            TouristGuide.timeLeft += minEdge/TouristGuide.SPEED +candidate.getNumber("duration");
+            return startNode;
+        }
+
+
+
+        return candidate;
+    }
+
+    private static double calcClosestEdge(Node ref) {
+
+        double minEdge = -1;
 
         Iterator<Edge> edges = ref.getEdgeIterator();
 
@@ -94,18 +117,40 @@ public class AStar {
                 System.out.println("Min Distance from " + ref.getId() + " to " + e.getOpposite(ref).getId() + " with a cost of " +  calcTravelCost(e));
         }
 
-        h = minEdge;
+        return minEdge;
+    }
 
-        TouristGuide.timeLeft -= minEdge/TouristGuide.SPEED +candidate.getNumber("duration");
+    private static double calcMinimumSpanningTree(Node ref) {
+        double minST = 0;
 
-        if(g/TouristGuide.SPEED > TouristGuide.timeLeft || open.isEmpty())
-            return startNode;
+        TreeMap<String, Double> pathCostMap = new TreeMap<String, Double>();
+        Iterator<Edge> edges = ref.getEdgeIterator();
+
+        while (edges.hasNext()) {
+            Edge e = edges.next();
+
+            if(closed.contains(e.getOpposite(ref)))
+                continue;
+
+            pathCostMap.put(e.getId(),calcTravelCost(e));
+        }
+
+        List paths = new ArrayList(pathCostMap.keySet());
+        Collections.sort(paths);
+
+        int time = 0;
+        int index = 0;
+
+        while(time < TouristGuide.timeLeft && index < paths.size()) {
+            // estimated mst cost
+            minST += pathCostMap.get(paths.get(index));
+            index++;
+        }
 
         if(TouristGuide.DEBUGGER)
-            System.out.println("\nMinimal cost node is " + candidate.getId() + " with a cost of " + h +
-                    "\n-------------------------------------------------------");
+            System.out.println("Min ST from " + ref.getId() + " is " +  minST);
 
-        return candidate;
+        return minST;
     }
 
     private static double calcTravelCost(Edge e) {

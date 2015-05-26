@@ -63,6 +63,10 @@ public class TouristGuide {
         for(int i = 0;i<c.getMap().getNodeCount();i++)
             open.add(c.getMap().getNode(i));
 
+
+
+        c.getMap().display();
+
         if(open.isEmpty())
             System.err.print("Solution can not be found.");
 
@@ -70,11 +74,13 @@ public class TouristGuide {
         AStar.run();
 
         //GFX
-        c.getMap().getNode(closed.get(0).getId()).getEdgeToward(closed.get(1)).addAttribute("ui.class","Start");
-        for (int i = 1; i <closed.size() - 1; i++)
-            c.getMap().getNode(closed.get(i).getId()).getEdgeToward(closed.get(i+1)).addAttribute("ui.class","Path");
+        c.getMap().getNode(closed.get(0).getId()).getEdgeToward(closed.get(1)).addAttribute("ui.class", "Start");
+        for (int i = 1; i < closed.size() - 1; i++) {
+            c.getMap().getNode(closed.get(i).getId()).getEdgeToward(closed.get(i + 1)).addAttribute("ui.class", "Path");
+            Thread.sleep(1000);
+        }
 
-        c.getMap().display();
+
     }
 
 
