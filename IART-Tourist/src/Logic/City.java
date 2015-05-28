@@ -1,15 +1,16 @@
 package Logic;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.ui.spriteManager.SpriteManager;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.*;
+import org.graphstream.ui.spriteManager.SpriteManager;
+
 
 /**
  * Created by Gonçalo Lobo on 16/04/2015.
