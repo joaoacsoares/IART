@@ -22,7 +22,7 @@ public class AStar {
 
         startNode = open.get(0);
 
-        int totalNodes = open.size();
+        int totalNodes = open.size()+1; // open nodes + end node
 
         if(open.isEmpty())
             System.err.print("Solution can not be found.");
@@ -32,14 +32,22 @@ public class AStar {
                 Thread.sleep(500);
                 System.out.println("Time left: " + TouristGuide.timeLeft);
             }
-            closed.add(getMinimalCostNode());
+            if(!open.isEmpty())
+                if(closed.size()>2) { // end cycle when startNode is at the end of closed nodes
+                    if (closed.get(closed.size() - 1).equals(startNode))
+                        break;
+                }
+                closed.add(getMinimalCostNode());
+                if (closed.get(closed.size()-1)==null){
+                    closed.remove(null);
+                    System.out.println("\nNo time to visit any places.");
+                    break;}
         }
 
         if(TouristGuide.DEBUGGER) {
             System.out.println("\nSolution:      (time remaining: " + TouristGuide.timeLeft + ")");
             System.out.println(closed);
         }
-
     }
 
     private static Node getMinimalCostNode() {
@@ -68,31 +76,43 @@ public class AStar {
             System.out.println("REF: " + ref);
         }
 
-        if(startNode.getEdgeToward(ref) != null)
+        if(!open.isEmpty()) {
+            if (startNode.getEdgeToward(ref) != null)
+                g = startNode.getEdgeToward(ref).getNumber("distance");
+            else g = 0;
+
+            minEdge = calcClosestEdge(ref);
+            minST = calcMinimumSpanningTree(ref);
+
+            h = minEdge + minST;
+
+            if(minEdge+g>TouristGuide.timeLeft && closed.size() == 1)
+                return null;
+
+            if (TouristGuide.DEBUGGER)
+                System.out.println("\nMinimal cost node is " + candidate.getId() + " with a cost of " + h +
+                        "\n-------------------------------------------------------");
+
+            TouristGuide.timeLeft -= candidate.getEdgeBetween(ref).getNumber("distance") / TouristGuide.SPEED + candidate.getNumber("duration");
+
+            if (g / TouristGuide.SPEED > TouristGuide.timeLeft || open.isEmpty()) {
+                if (!open.isEmpty()) {
+                    if(TouristGuide.DEBUGGER)
+                        System.out.println("\nNo more time to visit other nodes. Going back to the hotel.");
+                    TouristGuide.timeLeft += candidate.getEdgeBetween(ref).getNumber("distance") / TouristGuide.SPEED + candidate.getNumber("duration");
+                }
+                TouristGuide.timeLeft -= g / TouristGuide.SPEED;
+                return startNode;
+            }
+            return candidate;
+        }
+        else {
+            if(TouristGuide.DEBUGGER)
+                System.out.println("\nAll nodes were visited. Going back to the hotel.");
             g = startNode.getEdgeToward(ref).getNumber("distance");
-        else g = 0;
-
-        minEdge = calcClosestEdge(ref);
-        minST = calcMinimumSpanningTree(ref);
-
-        h = minEdge + minST;
-
-        if(TouristGuide.DEBUGGER)
-            System.out.println("\nMinimal cost node is " + candidate.getId() + " with a cost of " + h +
-                    "\n-------------------------------------------------------");
-
-        TouristGuide.timeLeft -= minEdge/TouristGuide.SPEED +candidate.getNumber("duration");
-
-        if(g/TouristGuide.SPEED > TouristGuide.timeLeft || open.isEmpty()) {
-            if(TouristGuide.DEBUGGER && !open.isEmpty())
-                System.out.println("\nNo more time to visit other nodes. Going back to the hotel");
-            TouristGuide.timeLeft += minEdge/TouristGuide.SPEED +candidate.getNumber("duration");
+            TouristGuide.timeLeft -= g / TouristGuide.SPEED;
             return startNode;
         }
-
-
-
-        return candidate;
     }
 
     private static double calcClosestEdge(Node ref) {
@@ -108,13 +128,13 @@ public class AStar {
             if(closed.contains(e.getOpposite(ref)))
                 continue;
 
-            if(minEdge > calcTravelCost(e) || minEdge < 0)
+            if(minEdge > calcTravelCost(e,ref) || minEdge < 0)
             {
-                minEdge = calcTravelCost(e);
+                minEdge = calcTravelCost(e,ref);
                 candidate = e.getOpposite(ref);
             }
             if(TouristGuide.DEBUGGER)
-                System.out.println("Min Distance from " + ref.getId() + " to " + e.getOpposite(ref).getId() + " with a cost of " +  calcTravelCost(e));
+                System.out.println("Min Distance from " + ref.getId() + " to " + e.getOpposite(ref).getId() + " with a cost of " +  calcTravelCost(e,ref));
         }
 
         return minEdge;
@@ -132,7 +152,7 @@ public class AStar {
             if(closed.contains(e.getOpposite(ref)))
                 continue;
 
-            pathCostMap.put(e.getId(),calcTravelCost(e));
+            pathCostMap.put(e.getId(),calcTravelCost(e,ref));
         }
 
         List paths = new ArrayList(pathCostMap.keySet());
@@ -153,8 +173,8 @@ public class AStar {
         return minST;
     }
 
-    private static double calcTravelCost(Edge e) {
-        return (e.getNumber("distance")+e.getTargetNode().getNumber("duration"))*e.getTargetNode().getNumber("priority");
+    private static double calcTravelCost(Edge e, Node ref) {
+        return (e.getNumber("distance")+e.getOpposite(ref).getNumber("duration"))*e.getOpposite(ref).getNumber("priority");
     }
 
 }

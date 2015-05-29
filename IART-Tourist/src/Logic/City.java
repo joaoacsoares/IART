@@ -196,11 +196,11 @@ public class City {
     }
 
     public float getPlaceDuration(int i) {
-        return Float.parseFloat(city[i][i].toString().replace("[", "").replace("]", "").split("|")[0]);
+        return Float.parseFloat(city[i][i].toString().replace("[", "").replace("]", "").split("-")[0]);
     }
 
     public float getPlacePriority(int i) {
-        return Float.parseFloat(city[i][i].toString().replace("[", "").replace("]", "").split("|")[0]);
+        return Float.parseFloat(city[i][i].toString().replace("[", "").replace("]", "").split("-")[1]);
     }
 
     public float getPlacesDistance(int i, int j) {
