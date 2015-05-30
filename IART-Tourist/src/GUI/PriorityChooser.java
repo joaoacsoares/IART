@@ -1,5 +1,7 @@
 package GUI;
 
+import Logic.Choices;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -11,16 +13,18 @@ import java.util.Vector;
 /**
  * Created by Joao on 30/05/2015.
  */
-class PriorityChooser extends JPanel {
+public class PriorityChooser extends JPanel {
     private JPanel contentPane;
     private Vector<SpinnerModel> spinners;
+    private Choices data;
 
 
-    public PriorityChooser(JPanel panel, String[] nodes)
+    public PriorityChooser(JPanel panel, String[] nodes, Choices redData)
     {
+        data = redData;
         contentPane = panel;
         JLabel display = new JLabel();
-        JButton finishBtn = new JButton("Finish");
+        final JButton finishBtn = new JButton("Finish");
         JButton cancelBtn = new JButton("Back");
         display.setText("Prioritize:");
 
@@ -45,6 +49,13 @@ class PriorityChooser extends JPanel {
                 {
                     System.out.println(prio);
                 }
+                data.setUserPriorities(priorities);
+                data.setDone(true);
+                Container frame = finishBtn.getParent();
+                do
+                    frame = frame.getParent();
+                while (!(frame instanceof JFrame));
+                ((JFrame) frame).dispose();
             }
 
 
@@ -55,6 +66,7 @@ class PriorityChooser extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
                 cardLayout.first(contentPane);
+
             }
         });
     }

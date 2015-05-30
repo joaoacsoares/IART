@@ -1,8 +1,14 @@
-import GUI.menuGUI;
+import GUI.CitySelectMenu;
+
+import Logic.Choices;
+import Logic.City;
 import org.graphstream.graph.Node;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 public class TouristGuide {
 
@@ -15,13 +21,25 @@ public class TouristGuide {
     public static List<Node> closed = new ArrayList<Node>();
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        City chosenCity = null;
+        String[] chosenNodes = null;
+        int[] priorities = null;
+        Choices data = new Choices(chosenCity,chosenNodes,priorities);
 
-        new menuGUI();
-        /*City c = new City("Porto");
+        startGUI(data);
+        System.out.println("b4");
+
+        process(data.getCity(), data.getChosenNodes(), data.getUserPriorities());
+    }
+
+    public static void process(City c, String[] nodes, int[] prios) throws InterruptedException {
+       // City c = new City("Porto");
 
         // Load list with unvisited nodes
         for(int i = 0;i<c.getMap().getNodeCount();i++)
             open.add(c.getMap().getNode(i));
+
+
 
         c.getMap().display();
 
@@ -41,7 +59,22 @@ public class TouristGuide {
             }
         }
         else System.err.print("Solution can not be found.");
-*/
+    }
+
+
+    private static void startGUI(Choices data) {
+        JFrame frame = new JFrame("Tourist Guide");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout(new CardLayout());
+
+        CitySelectMenu panel1 = new CitySelectMenu(contentPane,data);
+        contentPane.add(panel1, "CitySelection");
+        frame.setContentPane(contentPane);
+        frame.pack();
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+        while(frame.isActive());
     }
 
 

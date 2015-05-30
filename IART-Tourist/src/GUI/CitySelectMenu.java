@@ -1,5 +1,6 @@
 package GUI;
 
+import Logic.Choices;
 import Logic.City;
 
 import javax.swing.*;
@@ -12,15 +13,17 @@ import java.awt.event.ItemListener;
 /**
  * Created by Joao on 30/05/2015.
  */
-class CitySelectMenu extends JPanel implements ItemListener {
+public class CitySelectMenu extends JPanel implements ItemListener {
     private JLabel header;
     private JLabel display;
     private JPanel contentPane;
     private String city;
+    private Choices data;
 
 
-    public CitySelectMenu(JPanel panel) {
+    public CitySelectMenu(JPanel panel, Choices recData) {
         contentPane = panel;
+        data = recData;
         String[] cities = {"Porto","Lisboa","Aveiro"};
         city = cities[0];
         display = new JLabel(cities[0]);
@@ -45,7 +48,8 @@ class CitySelectMenu extends JPanel implements ItemListener {
         nextBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 City c = new City(city);
-                NodeSelectMenu panel2 = new NodeSelectMenu(contentPane, c);
+                data.setCity(c);
+                NodeSelectMenu panel2 = new NodeSelectMenu(contentPane, c, data);
                 contentPane.add(panel2, "NodeSelection");
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
                 cardLayout.next(contentPane);

@@ -18,7 +18,7 @@ import org.graphstream.ui.spriteManager.SpriteManager;
 
 public class City {
 
-    int nColumn;
+    public int nColumn;
     ArrayList[][] city;
     Graph map;
     String name;

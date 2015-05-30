@@ -1,5 +1,6 @@
 package GUI;
 
+import Logic.Choices;
 import javafx.util.Pair;
 
 import javax.swing.*;
@@ -13,18 +14,20 @@ import java.util.*;
 /**
  * Created by Joao on 30/05/2015.
  */
-class PriorityMenu extends JPanel {
+public class PriorityMenu extends JPanel {
 
     private JPanel contentPane;
     private String[] nodes;
+    private Choices data;
 
 
-    public PriorityMenu(JPanel panel, String [] selectedNodes) {
+    public PriorityMenu(JPanel panel, String [] selectedNodes, Choices recData) {
         contentPane = panel;
+        data = recData;
         this.nodes = selectedNodes;
         JLabel display = new JLabel();
         JButton yesBtn = new JButton("Yes");
-        JButton noBtn = new JButton("No");
+        final JButton noBtn = new JButton("No");
         JButton cancelBtn = new JButton("Cancel");
         display.setText("Do you want to define priorities?");
 
@@ -35,7 +38,7 @@ class PriorityMenu extends JPanel {
 
         yesBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PriorityChooser panel4 = new PriorityChooser(contentPane,nodes);
+                PriorityChooser panel4 = new PriorityChooser(contentPane,nodes,data);
                 contentPane.add(panel4, "PriorityChooser");
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
                 cardLayout.next(contentPane);
@@ -44,8 +47,11 @@ class PriorityMenu extends JPanel {
 
         noBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.next(contentPane);
+                Container frame = noBtn.getParent();
+                do
+                    frame = frame.getParent();
+                while (!(frame instanceof JFrame));
+                ((JFrame) frame).dispose();
             }
         });
 
