@@ -1,5 +1,4 @@
-import Logic.City;
-import org.graphstream.graph.Edge;
+import GUI.menuGUI;
 import org.graphstream.graph.Node;
 
 import java.io.IOException;
@@ -17,7 +16,8 @@ public class TouristGuide {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        City c = new City("Porto");
+        new menuGUI();
+        /*City c = new City("Porto");
 
         // Load list with unvisited nodes
         for(int i = 0;i<c.getMap().getNodeCount();i++)
@@ -41,7 +41,7 @@ public class TouristGuide {
             }
         }
         else System.err.print("Solution can not be found.");
-
+*/
     }
 
 
