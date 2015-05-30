@@ -34,7 +34,7 @@ public class PriorityChooser extends JPanel {
         //set component bounds (only needed by Absolute Positioning)
         display.setBounds(5, 1, 250, 50);
 
-        finishBtn.setBounds(240, 100, 60, 20);
+        finishBtn.setBounds(220, 100, 80, 20);
         cancelBtn.setBounds(310, 100, 80, 20);
 
         //add components
