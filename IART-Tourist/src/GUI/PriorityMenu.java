@@ -1,11 +1,15 @@
 package GUI;
 
 import Logic.Choices;
+import javafx.util.Pair;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 /**
  * Created by Joao on 30/05/2015.
