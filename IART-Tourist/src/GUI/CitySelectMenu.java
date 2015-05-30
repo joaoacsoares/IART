@@ -40,7 +40,7 @@ public class CitySelectMenu extends JPanel implements ItemListener {
 
         //set component bounds (only needed by Absolute Positioning)
         header.setBounds (5, 1, 185, 50);
-        display.setBounds (5, 40, 185, 50);
+        display.setBounds (145, 1, 185, 50);
         cityBox.setBounds(5, 40, 75,25);
         nextBtn.setBounds(240, 100, 60, 20);
         cancelBtn.setBounds(310, 100, 80, 20);
