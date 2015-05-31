@@ -2,6 +2,7 @@ import GUI.CitySelectMenu;
 
 import Logic.Choices;
 import Logic.City;
+import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
 import javax.swing.*;
@@ -33,14 +34,9 @@ public class TouristGuide {
     }
 
     public static void process(City c, String[] nodes, int[] prios) throws InterruptedException {
-       // City c = new City("Porto");
 
-        // Load list with unvisited nodes
-        for(int i = 0;i<c.getMap().getNodeCount();i++)
-            open.add(c.getMap().getNode(i));
-
-
-
+        Graph astarGraph = preProcessGraph(c, c.getMap(), nodes, prios);
+        c.setMap(astarGraph);
         c.getMap().display();
 
         if(open.isEmpty())
@@ -59,6 +55,29 @@ public class TouristGuide {
             }
         }
         else System.err.print("Solution can not be found.");
+    }
+
+    private static Graph preProcessGraph(City c, Graph map, String[] nodes, int[] prios) {
+
+        String[] aux = new String[nodes.length+2];
+        open.add(c.getMap().getNode(c.getPlaceIDbyName("Hotel")));
+        for(int i =0; i < nodes.length ; i++)
+        {
+            aux[i] = c.getPlaceIDbyName(nodes[i]);
+            open.add(c.getMap().getNode(aux[i]));
+            if(prios != null)
+                c.getMap().getNode(aux[i]).setAttribute("priority",prios[i]);
+        }
+
+        aux[nodes.length+1] = "Hotel";
+
+       for(Node n : map)
+       {
+           if(!Arrays.asList(aux).contains(n.getId())) {
+               map.removeNode(n);
+           }
+       }
+        return map;
     }
 
 

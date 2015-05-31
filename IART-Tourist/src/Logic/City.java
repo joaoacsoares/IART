@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.*;
 import org.graphstream.ui.spriteManager.SpriteManager;
 
@@ -56,6 +58,7 @@ public class City {
             graph.getNode(nodeId).addAttribute("ui.label", getPlaceName(i));
             graph.getNode(nodeId).addAttribute("priority", getPlacePriority(i)); // default
             graph.getNode(nodeId).addAttribute("ui.duration", getPlaceDuration(i));
+            //graph.getNode(nodeId).setAttribute("xyz", i, i, 0);
         }
 
         for (int i = 1; i < nColumn; i++) {
@@ -174,6 +177,11 @@ public class City {
         return city[0][0].toString().replace("[", "").replace("]", "");
     }
 
+    public void setMap(Graph g) {this.map = g;}
+
+
+
+
     public String getPlaceName(int i) {
         return city[0][i].toString().replace("[", "").replace("]", "");
     }
@@ -229,7 +237,7 @@ public class City {
 
 
 
-    private void listNodes() {
+    public void listNodes() {
         for(int i = 1; i<nColumn;i++)
             System.out.println(getPlaceName(i));
     }
