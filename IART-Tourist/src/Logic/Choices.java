@@ -1,5 +1,7 @@
 package Logic;
 
+import org.graphstream.graph.Node;
+
 /**
  * Created by Joao on 30/05/2015.
  */
@@ -8,13 +10,15 @@ public class Choices {
     private String[] chosenNodes;
     private int[] userPriorities;
     private boolean done;
+    private Node hotel;
 
-    public Choices(City c, String[] nodes, int[] prios)
+    public Choices(City c, String[] nodes, int[] prios, Node hote)
     {
         city = c;
         chosenNodes = nodes;
         userPriorities = prios;
         done = false;
+        hotel = hote;
     }
 
     public City getCity() {
@@ -47,5 +51,13 @@ public class Choices {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public Node getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Node hotel) {
+        this.hotel = hotel;
     }
 }

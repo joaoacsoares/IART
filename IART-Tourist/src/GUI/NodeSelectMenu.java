@@ -51,10 +51,14 @@ public class NodeSelectMenu extends JPanel { //second menu
         //construct components
         data = recData;
         int j =0;
-        String[] testNodes = new String[city.nColumn-2];
+        System.out.println(city.getHotels().size());
+        String[] testNodes = new String[city.nColumn-1-city.getHotels().size()];
         for(int i = 2; i<city.nColumn;i++)
         {
-            testNodes[j] = city.getPlaceName(i);
+            if(city.getPlaceName(i) != city.getCityName()) {
+                if(!city.getPlaceName(i).startsWith(("Hotel")))
+                    testNodes[j] = city.getPlaceName(i);
+            }
             j++;
         }
 
@@ -72,7 +76,7 @@ public class NodeSelectMenu extends JPanel { //second menu
 
 
 
-        setPreferredSize(new Dimension(395, 156));
+
         setLayout(null);
 
         //set component bounds (only needed by Absolute Positioning)
@@ -90,8 +94,10 @@ public class NodeSelectMenu extends JPanel { //second menu
             public void actionPerformed(ActionEvent e) {
                 String[] nodes = getSelectedNodes();
                 data.setChosenNodes(nodes);
-                PriorityMenu panel3 = new PriorityMenu(contentPane, nodes,data);
-                contentPane.add(panel3, "NodePriority");
+                HotelMenu panel3 = new HotelMenu(contentPane,nodes,data);
+                contentPane.add(panel3, "HotelMenu");
+                /*PriorityMenu panel3 = new PriorityMenu(contentPane, nodes,data);
+                contentPane.add(panel3, "NodePriority");*/
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
                 cardLayout.next(contentPane);
             }

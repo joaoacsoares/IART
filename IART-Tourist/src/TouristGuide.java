@@ -25,17 +25,17 @@ public class TouristGuide {
         City chosenCity = null;
         String[] chosenNodes = null;
         int[] priorities = null;
-        Choices data = new Choices(chosenCity,chosenNodes,priorities);
+        Node hotel = null;
+        Choices data = new Choices(chosenCity,chosenNodes,priorities,hotel);
 
         startGUI(data);
-        System.out.println("b4");
 
-        process(data.getCity(), data.getChosenNodes(), data.getUserPriorities());
+
+        process(data.getCity(), data.getChosenNodes(), data.getUserPriorities(),data.getHotel());
     }
 
-    public static void process(City c, String[] nodes, int[] prios) throws InterruptedException {
-
-        Graph astarGraph = preProcessGraph(c, c.getMap(), nodes, prios);
+    public static void process(City c, String[] nodes, int[] prios, Node sHotel) throws InterruptedException {
+        Graph astarGraph = preProcessGraph(c, c.getMap(), nodes, prios,sHotel);
         c.setMap(astarGraph);
         c.getMap().display();
 
@@ -57,10 +57,10 @@ public class TouristGuide {
         else System.err.print("Solution can not be found.");
     }
 
-    private static Graph preProcessGraph(City c, Graph map, String[] nodes, int[] prios) {
+    private static Graph preProcessGraph(City c, Graph map, String[] nodes, int[] prios,Node sHotel) {
 
         String[] aux = new String[nodes.length+2];
-        open.add(c.getMap().getNode(c.getPlaceIDbyName("Hotel")));
+        open.add(sHotel);
         for(int i =0; i < nodes.length ; i++)
         {
             aux[i] = c.getPlaceIDbyName(nodes[i]);
@@ -69,7 +69,7 @@ public class TouristGuide {
                 c.getMap().getNode(aux[i]).setAttribute("priority",prios[i]);
         }
 
-        aux[nodes.length+1] = "Hotel";
+        aux[nodes.length+1] = sHotel.getId();
 
        for(Node n : map)
        {

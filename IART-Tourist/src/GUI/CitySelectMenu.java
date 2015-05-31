@@ -35,7 +35,7 @@ public class CitySelectMenu extends JPanel implements ItemListener {
         JButton cancelBtn = new JButton ("Cancel");
 
         //adjust size and set layout
-        setPreferredSize (new Dimension(315, 85));
+        setPreferredSize (new Dimension(400, 300));
         setLayout(null);
 
         //set component bounds (only needed by Absolute Positioning)

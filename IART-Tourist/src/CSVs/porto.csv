@@ -1,6 +1,7 @@
-Porto,Hotel,Clérigos,Piolho,São Bento,Palácio
-Hotel,0-0,1,2,3,4
-Clerigos,1,2-1,5,5,1
-Piolho,2,5,1-1,1,5
-SBento,3,5,1,1-1,1
-Palacio,4,1,5,1,2-1
+Porto,Hotel,Clérigos,Piolho,São Bento,Palácio,HotelB
+Hotel,0-0,1,2,3,4,5
+Clerigos,1,2-1,5,5,1,4
+Piolho,2,5,1-1,1,5,3
+SBento,3,5,1,1-1,1,7
+Palacio,4,1,5,1,2-1,1
+HotelB,5,3,6,5,7,0-0

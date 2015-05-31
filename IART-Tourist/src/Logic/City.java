@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Vector;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -24,6 +25,7 @@ public class City {
     ArrayList[][] city;
     Graph map;
     String name;
+    Vector<Node> hotels;
 
     String DIR_PATH = System.getProperty("user.dir");
 
@@ -34,7 +36,7 @@ public class City {
         else if (name.equals("Lisboa"))
             this.city = loadCity(DIR_PATH + "\\src\\CSVs\\lisboa.csv");
         else System.err.println("There's no file database for that city.");
-
+        hotels = new Vector<Node>();
         map = generateGraph();
 
     }
@@ -52,7 +54,12 @@ public class City {
         for (int i = 1; i < nColumn; i++) {
             //create all nodes
             nodeId = getPlaceID(i);
+
             graph.addNode(nodeId);
+
+            if(nodeId.startsWith("Hotel")) {
+                hotels.add(graph.getNode(nodeId));
+            }
             //System.out.println(nodeId);
             graph.getNode(nodeId).setAttribute("duration", getPlaceDuration(i));
             graph.getNode(nodeId).addAttribute("ui.label", getPlaceName(i));
@@ -240,5 +247,13 @@ public class City {
     public void listNodes() {
         for(int i = 1; i<nColumn;i++)
             System.out.println(getPlaceName(i));
+    }
+
+    public Vector<Node> getHotels() {
+        return hotels;
+    }
+
+    public void setHotels(Vector<Node> hotels) {
+        this.hotels = hotels;
     }
 }
