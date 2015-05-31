@@ -1,3 +1,5 @@
+package Main;
+
 import GUI.CitySelectMenu;
 
 import Logic.Choices;
@@ -55,17 +57,19 @@ public class TouristGuide {
             }
         }
         else System.err.print("Solution can not be found.");
+
     }
 
-    private static Graph preProcessGraph(City c, Graph map, String[] nodes, int[] prios,Node sHotel) {
+    private static Graph preProcessGraph(City c, Graph map, String[] nodes, int[] prios, Node sHotel) {
 
         String[] aux = new String[nodes.length+2];
-        for(Node n : c.getHotels())
+        for(int i = 0; i < c.getHotels().size() ; i++)
         {
-            if(n != sHotel)
+            if(map.getNode(c.getHotels().elementAt(i).getId()) != sHotel)
             {
-                map.removeNode(n);
+                map.removeNode(c.getHotels().elementAt(i).getId());
             }
+
         }
         open.add(sHotel);
         for(int i =0; i < nodes.length ; i++)
@@ -78,12 +82,15 @@ public class TouristGuide {
 
         aux[nodes.length+1] = sHotel.getId();
 
-       for(Node n : map)
+       for(int i = 0 ; i < map.getNodeSet().size() ; i++)
        {
-           if(!Arrays.asList(aux).contains(n.getId())) {
-               map.removeNode(n);
+           if(!Arrays.asList(aux).contains(map.getNode(i).getId())) {
+               map.removeNode(map.getNode(i));
+               i--;
            }
        }
+
+
         return map;
     }
 

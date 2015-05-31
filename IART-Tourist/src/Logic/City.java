@@ -32,8 +32,10 @@ public class City {
         this.name = name;
         if (name.equals("Porto"))
             this.city = loadCity(DIR_PATH + "\\src\\CSVs\\porto.csv");
-        else if (name.equals("Lisboa"))
-            this.city = loadCity(DIR_PATH + "\\src\\CSVs\\lisboa.csv");
+        else if (name.equals("Londres"))
+            this.city = loadCity(DIR_PATH + "\\src\\CSVs\\londres.csv");
+        else if (name.equals("Paris"))
+            this.city = loadCity(DIR_PATH + "\\src\\CSVs\\paris.csv");
         else System.err.println("There's no file database for that city.");
         hotels = new Vector<Node>();
         map = generateGraph();
@@ -94,7 +96,7 @@ public class City {
 
     public ArrayList[][] loadCity(String csv) {
 
-        ArrayList[][] c = new ArrayList[10][10];
+        ArrayList[][] c = new ArrayList[15][15];
         c[0][0] = new ArrayList();
 
         String csvFile = csv;
@@ -141,8 +143,10 @@ public class City {
 
         if (name.equals("Porto"))
             cssFile = DIR_PATH + "\\src\\Stylesheets\\porto.css";
-        else if (name.equals("Lisboa"))
-            cssFile = DIR_PATH + "\\src\\Stylesheets\\lisboa.css";
+        else if (name.equals("Londres"))
+            cssFile = DIR_PATH + "\\src\\Stylesheets\\londres.css";
+        else if (name.equals("Paris"))
+            cssFile = DIR_PATH + "\\src\\Stylesheets\\paris.css";
         else {
             cssFile = "error";
             System.err.println("There are no stylesheet available for that city.");

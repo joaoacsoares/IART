@@ -19,10 +19,10 @@ public class HotelMenu extends JPanel {
     public HotelMenu(JPanel panel, final String[] nodes, Choices recData) {
         data = recData;
         contentPane = panel;
-        JLabel display = new JLabel();
+
         JButton nextBtn = new JButton("Next");
         JButton cancelBtn = new JButton("Back");
-        display.setText("Choose your Hotel:");
+
 
         hotel = data.getCity().getHotels().elementAt(0);
         ButtonGroup bG = new ButtonGroup();
@@ -51,13 +51,13 @@ public class HotelMenu extends JPanel {
 
 
         //set component bounds (only needed by Absolute Positioning)
-        display.setBounds(5, 1, 250, 50);
+
         nextBtn.setBounds(240, 100, 60, 20);
         cancelBtn.setBounds(310, 100, 80, 20);
 
         //add components
 
-        add(display);
+
         add(nextBtn);
         add(cancelBtn);
         nextBtn.addActionListener(new ActionListener() {

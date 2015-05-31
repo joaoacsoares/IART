@@ -24,7 +24,7 @@ public class CitySelectMenu extends JPanel implements ItemListener {
     public CitySelectMenu(JPanel panel, Choices recData) {
         contentPane = panel;
         data = recData;
-        String[] cities = {"Porto","Lisboa","Aveiro"};
+        String[] cities = {"Porto","Londres","Paris"};
         city = cities[0];
         display = new JLabel(cities[0]);
         header = new JLabel();

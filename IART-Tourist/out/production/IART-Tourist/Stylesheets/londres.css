@@ -1,0 +1,8 @@
+node.important {
+    fill-color: red;
+    size: 15px;
+}
+
+edge.Start { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #FC0; shadow-offset: 0px; }
+
+edge.Path { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #E22727; shadow-offset: 0px; }

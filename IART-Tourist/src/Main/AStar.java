@@ -1,3 +1,5 @@
+package Main;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 

@@ -50,8 +50,8 @@ public class NodeSelectMenu extends JPanel { //second menu
         data = recData;
         int j =0;
 
-        String[] testNodes = new String[city.nColumn-1-city.getHotels().size()];
-        for(int i = 2; i<city.nColumn;i++)
+        String[] testNodes = new String[city.getMap().getNodeSet().size()-city.getHotels().size()+1];
+        for(int i = city.getHotels().size(); i<city.getMap().getNodeSet().size()+1;i++)
         {
             if(!city.getPlaceName(i).equals(city.getCityName())) {
                 if(!city.getPlaceName(i).startsWith(("Hotel")))
@@ -79,7 +79,7 @@ public class NodeSelectMenu extends JPanel { //second menu
 
         //set component bounds (only needed by Absolute Positioning)
         display.setBounds(5, 1, 250, 50);
-        checkBoxList.setBounds(5, 40, 200, 105);
+        checkBoxList.setBounds(5, 40, 200, 1000);
         nextBtn.setBounds(240, 100, 60, 20);
         cancelBtn.setBounds(310, 100, 80, 20);
 
