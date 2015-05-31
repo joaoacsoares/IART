@@ -3,6 +3,69 @@ node.important {
     size: 15px;
 }
 
+node#BigBen {
+shape: box;
+size: 82px, 262px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\bigBen.png');
+}
+
+node#LondonEye {
+shape: box;
+size: 97px, 150px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\londonEye.png');
+}
+
+node#MadameTussauds {
+shape: box;
+size: 152px, 114px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\mdmtussauds.png');
+}
+
+node#NaturalHistoryMuseum {
+shape: box;
+size: 112px, 71px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\nhMuseum.png');
+}
+
+node#LambethPalaceGardens {
+shape: box;
+size: 131px, 84px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\lambeth.png');
+}
+
+node#BuckinghamPalace {
+shape: box;
+size: 131px, 84px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\buck.png');
+}
+
+node#LondonZoo {
+shape: box;
+size: 115px, 86px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\zoo.png');
+}
+
+node#HydePark {
+shape: box;
+size: 100px, 66px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\hydepark.png');
+}
+
+node#StJamesPark {
+shape: box;
+size: 105px, 70px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\stJames.png');
+}
+
 edge.Start { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #FC0; shadow-offset: 0px; }
 
 edge.Path { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #E22727; shadow-offset: 0px; }

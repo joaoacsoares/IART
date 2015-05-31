@@ -15,7 +15,7 @@ import java.util.List;
 
 public class TouristGuide {
 
-    public static boolean DEBUGGER = false;
+    public static boolean DEBUGGER = true;
 
     public static double SPEED = 4;     // km/h
     public static double timeLeft = 10;

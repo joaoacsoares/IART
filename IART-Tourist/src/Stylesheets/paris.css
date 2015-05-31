@@ -6,3 +6,61 @@ node.important {
 edge.Start { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #FC0; shadow-offset: 0px; }
 
 edge.Path { fill-color: #777; shadow-mode: plain; shadow-width: 3px; shadow-color: #E22727; shadow-offset: 0px; }
+
+
+node#CatedralNotreDame {
+shape: box;
+size: 200px, 251px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\notreDame.png');
+}
+
+node#TorreEifel {
+shape: box;
+size: 88px, 150px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\eiffel.png');
+}
+
+node#MuseuDoLouvre {
+shape: box;
+size: 136px, 78px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\louvre.png');
+}
+
+node#RioSena {
+shape: box;
+size: 165px, 124px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\rioSena.png');
+}
+
+node#ArcoDoTriunfo {
+shape: box;
+size: 200px, 182px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\arc.png');
+}
+
+node#MoulinRouge {
+shape: box;
+size: 126px,104px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\moullinRougue.png');
+}
+
+node#JardimTuileries {
+shape: box;
+size: 120px, 80px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\jardins.png');
+}
+
+node#ChampsElysees {
+shape: box;
+size: 175px, 155px;
+fill-mode: image-scaled;
+fill-image: url('path\\src\\Sprites\\champsElyses.png');
+}
+

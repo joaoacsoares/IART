@@ -18,12 +18,7 @@ size: 113px, 84px;
 fill-mode: image-scaled;
 fill-image: url('path\\src\\Sprites\\piolho.png');
 }
-node#SBento {
-shape: box;
-size: 123px, 64px;
-fill-mode: image-scaled;
-fill-image: url('path\\src\\Sprites\\sbento.png');
-}
+
 node#Palacio {
 shape: box;
 size: 135px, 75px;
