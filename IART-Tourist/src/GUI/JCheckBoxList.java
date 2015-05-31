@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 @SuppressWarnings("serial")
 public class JCheckBoxList extends JList<JCheckBox> {
     public int getNumberOfNodes() {
-        System.out.println(numberOfNodes);
+
         return numberOfNodes;
     }
 

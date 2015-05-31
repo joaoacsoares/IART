@@ -44,10 +44,10 @@ public class AStar {
                     break;}
         }
 
-        if(TouristGuide.DEBUGGER) {
-            System.out.println("\nSolution:      (time remaining: " + TouristGuide.timeLeft + ")");
-            System.out.println(closed);
-        }
+
+        System.out.println("\nSolution:      (time remaining: " + TouristGuide.timeLeft + " Hours" + ")");
+        System.out.println(closed);
+
     }
 
     private static Node getMinimalCostNode() {

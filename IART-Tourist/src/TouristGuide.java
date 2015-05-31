@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TouristGuide {
 
-    public static boolean DEBUGGER = true;
+    public static boolean DEBUGGER = false;
 
     public static double SPEED = 4;     // km/h
     public static double timeLeft = 10;
@@ -60,6 +60,13 @@ public class TouristGuide {
     private static Graph preProcessGraph(City c, Graph map, String[] nodes, int[] prios,Node sHotel) {
 
         String[] aux = new String[nodes.length+2];
+        for(Node n : c.getHotels())
+        {
+            if(n != sHotel)
+            {
+                map.removeNode(n);
+            }
+        }
         open.add(sHotel);
         for(int i =0; i < nodes.length ; i++)
         {

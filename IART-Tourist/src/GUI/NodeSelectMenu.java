@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 /**
  * Created by Joao on 30/05/2015.
@@ -37,7 +36,6 @@ public class NodeSelectMenu extends JPanel { //second menu
             JCheckBox checkbox = (JCheckBox) model.getElementAt(i);
             if (checkbox.isSelected()) {
                 String tmp = checkbox.getText();
-                System.out.println(tmp);
                 ret[j] = tmp;
                 j++;
             }
@@ -51,11 +49,11 @@ public class NodeSelectMenu extends JPanel { //second menu
         //construct components
         data = recData;
         int j =0;
-        System.out.println(city.getHotels().size());
+
         String[] testNodes = new String[city.nColumn-1-city.getHotels().size()];
         for(int i = 2; i<city.nColumn;i++)
         {
-            if(city.getPlaceName(i) != city.getCityName()) {
+            if(!city.getPlaceName(i).equals(city.getCityName())) {
                 if(!city.getPlaceName(i).startsWith(("Hotel")))
                     testNodes[j] = city.getPlaceName(i);
             }
@@ -96,8 +94,6 @@ public class NodeSelectMenu extends JPanel { //second menu
                 data.setChosenNodes(nodes);
                 HotelMenu panel3 = new HotelMenu(contentPane,nodes,data);
                 contentPane.add(panel3, "HotelMenu");
-                /*PriorityMenu panel3 = new PriorityMenu(contentPane, nodes,data);
-                contentPane.add(panel3, "NodePriority");*/
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
                 cardLayout.next(contentPane);
             }

@@ -45,12 +45,9 @@ public class PriorityChooser extends JPanel {
         finishBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int[] priorities = getPriorities();
-                for(int prio : priorities )
-                {
-                    System.out.println(prio);
-                }
                 data.setUserPriorities(priorities);
                 data.setDone(true);
+
                 Container frame = finishBtn.getParent();
                 do
                     frame = frame.getParent();
@@ -84,7 +81,6 @@ public class PriorityChooser extends JPanel {
     private void genSpinners(String[] nodes) {
         ChangeListener listener = new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                System.out.println("Source: " + e.getSource());
                 repaint();
             }
         };

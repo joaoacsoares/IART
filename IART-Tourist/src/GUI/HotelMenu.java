@@ -40,9 +40,8 @@ public class HotelMenu extends JPanel {
                     String tmp = button1.getText();
                     for(Node n : data.getCity().getHotels())
                     {
-                        if(n.getId() == tmp) {
+                        if(n.getId().equals(tmp)) {
                             hotel = n;
-                            System.out.println(tmp);
                         }
                     }
                 }
